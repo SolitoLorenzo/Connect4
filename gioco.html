@@ -1,59 +1,56 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Forza 4</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/style.css">
-</head>
-
-<body>
-    <center>
-        <p>
-            Giocatore 1: {{ session.get("player1") }} con gettone Rossi<br />
-            Giocatore 2: {{ session.get("player2") }} con gettone Gialli<br />
-            <h1>Turno di {% if session.get("turno") == session.get("gettonePlayer1") %}{{ session.get("player1") + " (Rossi)" }}{% else %}{{ session.get("player2") + " (Gialli)" }}{% endif %}</h1>
-        </p>
-        <table border="1">
-            <form action="mossa" method="POST">
-                <tr>
-                    {% if session.get("fineGioco") == "N" %}
-                        {% for col in range(session.get("nCols")) %}
-                            <td>
-                                <input type="submit" value="{{ col + 1 }}" name="mossa" />
-                            </td>
-                        {% endfor %}
-                    {% else %}
-                        {% for col in range(session.get("nCols")) %}
-                            <td>
-                                <input type="submit" value="{{ col + 1 }}" name="mossa" disabled />
-                            </td>
-                        {% endfor %}
-                    {% endif %}
-                </tr>
-            </form>
-            {% for row in range(session.get("nRows")) %}
-                <tr>
-                    {% for col in range(session.get("nCols")) %}
-                        {% if session.get("matrix")[row][col] == "W" %}
-                            <td class="white">
-                        {% elif session.get("matrix")[row][col] == "R" %}
-                            <td class="red">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Forza 4</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/style.css">
+    </head>
+    <body>
+        <center>
+            <p>
+                Giocatore 1: {{ session.get("player1") }} con gettone Rossi<br />
+                Giocatore 2: {{ session.get("player2") }} con gettone Gialli<br />
+                <h1>Turno di {% if session.get("turno") == session.get("gettonePlayer1") %}{{ session.get("player1") + " (Rossi)" }}{% else %}{{ session.get("player2") + " (Gialli)" }}{% endif %}</h1>
+            </p>
+            <table border="1">
+                <form action="mossa" method="POST">
+                    <tr>
+                        {% if session.get("fineGioco") == "N" %}
+                            {% for col in range(session.get("nCols")) %}
+                                <td>
+                                    <input type="submit" value="{{ col + 1 }}" name="mossa" />
+                                </td>
+                            {% endfor %}
                         {% else %}
-                            <td class="yellow">
-                        {% endif %}                 
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-        <div>
-            {{ session.get("messaggio") | safe }}
-        <div>
-    </center>
-</body>
-
+                            {% for col in range(session.get("nCols")) %}
+                                <td>
+                                    <input type="submit" value="{{ col + 1 }}" name="mossa" disabled />
+                                </td>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                </form>
+                {% for row in range(session.get("nRows")) %}
+                    <tr>
+                        {% for col in range(session.get("nCols")) %}
+                            {% if session.get("matrix")[row][col] == "W" %}
+                                <td class="white">
+                            {% elif session.get("matrix")[row][col] == "R" %}
+                                <td class="red">
+                            {% else %}
+                                <td class="yellow">
+                            {% endif %}                 
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <div>
+                {{ session.get("messaggio") | safe }}
+            <div>
+        </center>
+    </body>
 </html>
